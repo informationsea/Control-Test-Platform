@@ -11,6 +11,15 @@
 *.la
 *.a
 
+# Autotools
+Makefile
+.deps
+stamp-h1
+config.h
+config.log
+config.status
+libtool
+
 # Mac OS X
 .DS_Store
 
