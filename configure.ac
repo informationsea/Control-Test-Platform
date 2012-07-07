@@ -28,6 +28,29 @@ esac
 
 AM_CONDITIONAL([WIN32], [test x$WIN32 = xtrue])
 
+#AC_PRESERVE_HELP_ORDER
+#AC_ARG_WITH([ode], [AS_HELP_STRING([--with-ode=PREFIX],
+#                                   [Open Dynamics Engine])],
+#            [], [with_ode=yes1])
+#AC_ARG_WITH([drawstuff], [AS_HELP_STRING([--with-drawstuff=PREFIX],
+#                                   [Open Dynamics Engine Drawstuff])],
+#            [], [with_drawstuff=yes2])
+#AC_ARG_WITH([drawstuff-include], [AS_HELP_STRING([--with-drawstuff-include=PATH],
+#                                   [Open Dynamics Engine Drawstuff include files])],
+#            [], [with_drawstuff_include=yes3])
+#AC_ARG_WITH([drawstuff-lib], [AS_HELP_STRING([--with-drawstuff-lib=PATH],
+#                                   [Open Dynamics Engine Drawstuff library path])],
+#            [], [with_drawstuff_include=yes5])
+#AC_ARG_WITH([textures], [AS_HELP_STRING([--with-textures=PATH],
+#                                   [Open Dynamics Engine Drawstuff Textures])],
+#            [], [with_textures=yes4])
+#
+#echo ODE $with_ode
+#echo Drawstuff $with_drawstuff
+#echo Drawstuff $with_drawstuff_include
+#echo Drawstuff $with_textures
+
+
 # Checks for programs.
 AM_PROG_AR
 AC_CONFIG_MACRO_DIR([m4])
@@ -74,5 +97,5 @@ DX_INIT_DOXYGEN(ctp, doxygen.cfg, doc/ctp)
 
 AC_CONFIG_FILES([Makefile
                  samples/roller-robot/Makefile
-                 src/Makefile])
+                 odeutil/Makefile])
 AC_OUTPUT
