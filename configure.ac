@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([control-test-platform], [0.1], [okamura@informationsea.info])
+AC_INIT([control-test-platform], [0.1.1], [okamura@informationsea.info])
 
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([readme-alpha -Wall -Werror foreign color-tests])
@@ -11,6 +11,22 @@ AC_CONFIG_HEADERS([config.h])
 
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
+
+# Checks for libraries.
+case "$host_os" in
+  cygwin* | mingw*)
+    LIBS="$LIBS -mwindows -lglu32 -lopengl32 -lwinmm"
+    WIN32=true
+    ;;
+  *apple* | *darwin*) # For Mac OS X
+    LIBS="$LIBS -framework GLUT -framework OpenGL"
+    ;;
+  *)
+    LIBS="$LIBS -L/usr/X11R6/lib -lglut -lGLU -lGL -lm -lpthread"
+    ;;
+esac
+
+AM_CONDITIONAL([WIN32], [test x$WIN32 = xtrue])
 
 # Checks for programs.
 AM_PROG_AR
@@ -23,19 +39,6 @@ AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_MAKE_SET
 AC_PATH_PROG(ODE_CONFIG, ode-config, AC_MSG_ERROR(Test for ode-config failed.))
-
-# Checks for libraries.
-case "$host_os" in
-  cygwin* | mingw*)
-    LIBS="$LDFLAGS -mwindows -lglu32 -lopengl32 -lwinmm"
-    ;;
-  *apple* | *darwin*) # For Mac OS X
-    LIBS="$LDFLAGS -framework GLUT -framework OpenGL"
-    ;;
-  *)
-    LIBS="$LDFLAGS -L/usr/X11R6/lib -lglut -lGLU -lGL -lm -lpthread"
-    ;;
-esac
 
 LIBS="`ode-config --libs` -lstdc++ $LIBS"
 CPPFLAGS="$CPPFLAGS `ode-config --cflags`"
@@ -55,6 +58,19 @@ AC_TYPE_SIZE_T
 
 # Checks for library functions.
 AC_CHECK_FUNCS([memset sqrt])
+
+# Doxygen
+DX_DOCDIR="doc/ctp"
+DX_HTML_FEATURE(ON)
+DX_CHM_FEATURE(OFF)
+DX_CHI_FEATURE(OFF)
+DX_MAN_FEATURE(ON)
+DX_RTF_FEATURE(OFF)
+DX_XML_FEATURE(OFF)
+DX_PDF_FEATURE(ON)
+DX_PS_FEATURE(OFF)
+DX_INIT_DOXYGEN(ctp, doxygen.cfg, doc/ctp)
+
 
 AC_CONFIG_FILES([Makefile
                  samples/roller-robot/Makefile
