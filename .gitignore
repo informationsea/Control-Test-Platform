@@ -19,6 +19,9 @@ config.h
 config.log
 config.status
 libtool
+*.in
+configure
+autom4te.cache
 
 # Mac OS X
 .DS_Store
