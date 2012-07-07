@@ -6,7 +6,7 @@ AC_INIT([control-test-platform], [0.1.1], [okamura@informationsea.info])
 
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([readme-alpha -Wall -Werror foreign color-tests])
-AC_CONFIG_SRCDIR([samples/roller-robot/key_controller.c])
+AC_CONFIG_SRCDIR([samples/roller-robot/slopekey.cpp])
 AC_CONFIG_HEADERS([config.h])
 
 AC_CANONICAL_BUILD
@@ -96,6 +96,8 @@ DX_INIT_DOXYGEN(ctp, doxygen.cfg, doc/ctp)
 
 
 AC_CONFIG_FILES([Makefile
+                 samples/Makefile
+                 samples/normal-robot/Makefile
                  samples/roller-robot/Makefile
                  odeutil/Makefile])
 AC_OUTPUT

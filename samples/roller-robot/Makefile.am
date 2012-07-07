@@ -1,11 +1,12 @@
-AM_CPPFLAGS = -I$(abs_top_srcdir)/odeutil
-
 LDADD = $(top_builddir)/odeutil/libodeutil.la
 
-noinst_PROGRAMS = slopekey slopeonoff slopetemplate
-slopekey_SOURCES = key_controller.c slope_roller.cpp
-slopeonoff_SOURCES = onoff_controller.c slope_roller.cpp
-slopetemplate_SOURCES = template_controller.c slope_roller.cpp
+noinst_PROGRAMS = slopekey slopeonoff slopetemplate slope_p slope_pd slope_pid
+slopekey_SOURCES = slopekey.cpp
+slopeonoff_SOURCES = slopeonoff.cpp
+slopetemplate_SOURCES = slopetemplate.cpp
+slope_p_SOURCES = slope_p.cpp
+slope_pd_SOURCES = slope_pd.cpp
+slope_pid_SOURCES = slope_pid.cpp
 
 
 if WIN32
