@@ -13,6 +13,8 @@
 #include <ode/ode.h>
 #include <drawstuff/drawstuff.h>
 
+#include "config.h"
+
 #ifndef LENGTH
 /**
  * Calculate length of array.
@@ -35,7 +37,8 @@
  *  You can change this by -D option.
  *  @ingroup ode_support
  */
-#define DRAWSTUFF_TEXTURE_PATH "/usr/local/share/drawstuff"
+#error "Did you configured?"
+// #define DRAWSTUFF_TEXTURE_PATH "/usr/local/share/drawstuff"
 #endif
 
 struct RotationAngles {

@@ -15,40 +15,18 @@ AC_CANONICAL_HOST
 # Checks for libraries.
 case "$host_os" in
   cygwin* | mingw*)
-    LIBS="$LIBS -mwindows -lglu32 -lopengl32 -lwinmm"
+    LIBS="-mwindows -lglu32 -lopengl32 -lwinmm $LIBS"
     WIN32=true
     ;;
   *apple* | *darwin*) # For Mac OS X
-    LIBS="$LIBS -framework GLUT -framework OpenGL"
+    LIBS="-framework GLUT -framework OpenGL $LIBS"
     ;;
   *)
-    LIBS="$LIBS -L/usr/X11R6/lib -lglut -lGLU -lGL -lm -lpthread"
+    LIBS="-L/usr/X11R6/lib -lglut -lGLU -lGL -lm -lpthread $LIBS"
     ;;
 esac
 
 AM_CONDITIONAL([WIN32], [test x$WIN32 = xtrue])
-
-#AC_PRESERVE_HELP_ORDER
-#AC_ARG_WITH([ode], [AS_HELP_STRING([--with-ode=PREFIX],
-#                                   [Open Dynamics Engine])],
-#            [], [with_ode=yes1])
-#AC_ARG_WITH([drawstuff], [AS_HELP_STRING([--with-drawstuff=PREFIX],
-#                                   [Open Dynamics Engine Drawstuff])],
-#            [], [with_drawstuff=yes2])
-#AC_ARG_WITH([drawstuff-include], [AS_HELP_STRING([--with-drawstuff-include=PATH],
-#                                   [Open Dynamics Engine Drawstuff include files])],
-#            [], [with_drawstuff_include=yes3])
-#AC_ARG_WITH([drawstuff-lib], [AS_HELP_STRING([--with-drawstuff-lib=PATH],
-#                                   [Open Dynamics Engine Drawstuff library path])],
-#            [], [with_drawstuff_include=yes5])
-#AC_ARG_WITH([textures], [AS_HELP_STRING([--with-textures=PATH],
-#                                   [Open Dynamics Engine Drawstuff Textures])],
-#            [], [with_textures=yes4])
-#
-#echo ODE $with_ode
-#echo Drawstuff $with_drawstuff
-#echo Drawstuff $with_drawstuff_include
-#echo Drawstuff $with_textures
 
 
 # Checks for programs.
@@ -56,23 +34,91 @@ AM_PROG_AR
 AC_CONFIG_MACRO_DIR([m4])
 ACLOCAL_AMFLAGS="-I m4"
 AC_DISABLE_SHARED
-LT_INIT([disable-shared win32-dll])
+LT_INIT([disable-shared])
 AC_CHECK_TOOLS([WINDRES], [windres])
 AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_MAKE_SET
-AC_PATH_PROG(ODE_CONFIG, ode-config, AC_MSG_ERROR(Test for ode-config failed.))
-
-LIBS="`ode-config --libs` -lstdc++ $LIBS"
-CPPFLAGS="$CPPFLAGS `ode-config --cflags`"
 
 # Checks for libraries.
+AC_PRESERVE_HELP_ORDER
+
+AC_ARG_WITH(ode,
+[AS_HELP_STRING([--with-ode=PATH],
+                [specify prefix directory for the installed ODE package.])])
+
+if test "x$with_ode" != x; then
+  AC_PATH_PROG(ODE_CONFIG, [ode-config], [no], [$with_ode/bin])
+  if test x$ODE_CONFIG = xno; then
+    AC_MSG_ERROR(Test for ode-config failed.)
+  fi
+  LIBS="`$with_ode/bin/ode-config --libs` -lstdc++ $LIBS"
+  CPPFLAGS="$CPPFLAGS `$with_ode/bin/ode-config --cflags`"
+else
+  AC_PATH_PROG(ODE_CONFIG, ode-config, [no])
+  if test x$ODE_CONFIG = xno; then
+    AC_MSG_ERROR(Test for ode-config failed.)
+  fi
+  LIBS="`ode-config --libs` -lstdc++ $LIBS"
+  CPPFLAGS="$CPPFLAGS `ode-config --cflags`"
+fi
+
+
+AC_ARG_WITH([drawstuff], [AS_HELP_STRING([--with-drawstuff=PREFIX],
+                                   [Open Dynamics Engine Drawstuff])])
+AC_ARG_WITH([drawstuff-include], [AS_HELP_STRING([--with-drawstuff-include=PATH],
+                                   [Open Dynamics Engine Drawstuff include files])])
+AC_ARG_WITH([drawstuff-lib], [AS_HELP_STRING([--with-drawstuff-lib=PATH],
+                                   [Open Dynamics Engine Drawstuff library path])])
+AC_ARG_WITH([textures], [AS_HELP_STRING([--with-textures=PATH],
+                                   [Open Dynamics Engine Drawstuff Textures])])
+
+if test "x$with_drawstuff" != x; then
+  drawstuff_include=$with_drawstuff/include
+  drawstuff_lib=$with_drawstuff/lib
+fi
+if test "x$with_drawstuff_include" != x; then
+  drawstuff_include=$with_drawstuff_include
+fi
+if test "x$with_drawstuff_lib" != x; then
+  drawstuff_lib=$with_drawstuff_lib
+fi
+if test "x$drawstuff_lib" != x;then
+   LIBS="-L$drawstuff_lib $LIBS"
+fi
+if test "x$drawstuff_include" != x;then
+   CPPFLAGS="$CPPFLAGS -I$drawstuff_include"
+fi
+if test "x$textures" == x;then
+   if test x$prefix == xNONE;then
+     tmpprefix=$ac_default_prefix
+   else
+     tmpprefix=$prefix
+   fi
+   textures="$tmpprefix/$drawstuff/share/drawstuff"
+fi
+if test ! -f $textures/checkered.ppm ;then
+   AC_MSG_ERROR(Drawstuff textures are not found.)
+fi
+if test ! -f $textures/ground.ppm ;then
+   AC_MSG_ERROR(Drawstuff textures are not found.)
+fi
+if test ! -f $textures/sky.ppm ;then
+   AC_MSG_ERROR(Drawstuff textures are not found.)
+fi
+if test ! -f $textures/wood.ppm ;then
+   AC_MSG_ERROR(Drawstuff textures are not found.)
+fi
+
+AC_DEFINE_UNQUOTED(DRAWSTUFF_TEXTURE_PATH, ["$textures"], [define texture path])
+
 AC_CHECK_LIB(ode, [dInitODE], [], AC_MSG_ERROR(Test for library ODE failed.))
 AC_CHECK_LIB(drawstuff, [dsSimulationLoop], [], AC_MSG_ERROR(Test for library drawstuff failed.
-You have to install this library manually.))
+You have to apply the patch "ode-1.2.patch" in misc to install drawstuff.))
 
 # Checks for header files.
-AC_CHECK_HEADERS([ode/ode.h drawstuff/drawstuff.h])
+AC_CHECK_HEADER([ode/ode.h], [], AC_MSG_ERROR(Test for library ODE/Drawstuff failed.))
+AC_CHECK_HEADER([drawstuff/drawstuff.h], [], AC_MSG_ERROR(Test for library ODE/Drawstuff failed.))
 AC_CHECK_HEADERS([sys/time.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.

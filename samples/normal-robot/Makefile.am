@@ -5,7 +5,7 @@ normalkey_SOURCES = normalkey.cpp
 
 
 if WIN32
-resources.o: $(top_srcdir)/drawstuff/src/resources.rc $(top_srcdir)/drawstuff/src/resource.h
-	@WINDRES@ $(top_srcdir)/drawstuff/src/resources.rc -o resources.o
+resources.o: $(top_srcdir)/odeutil/resources.rc $(top_srcdir)/odeutil/resource.h
+	@WINDRES@ $(top_srcdir)/odeutil/resources.rc -o resources.o
 LDADD += resources.o
 endif
