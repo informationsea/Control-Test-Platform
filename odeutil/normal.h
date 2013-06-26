@@ -2,7 +2,11 @@
 
 /** @file normal.h
  *  @author Y.Okamura
+ * 
  *  Normal robot for DC motor practice.
+ *
+ * \section Basic usage
+ * \include samples/normal-robot/normalkey.cpp
  */
 
 /** @defgroup normal_robot Normal Robot
@@ -70,6 +74,13 @@ public:
      *  @see car_get_encoder_value
      *  @see car_get_point
      *  @param x_offset Offset of X axis
+     *  @param y_offset Offset of Y axis
+     *  @param z_offset Offset of Z axis
+     *  @param angle Offset of angle
+     *  @param wheelSize Size of wheel
+     *  @param x_size Length of x axis
+     *  @param y_size Length of y axis
+     *  @param z_size Length of z axis
      */
     NormalRobot(double x_offset = 0, double y_offset = 0, double z_offset = 0,
             double angle = 0, double wheelSize = 0.08,

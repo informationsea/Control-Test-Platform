@@ -51,9 +51,8 @@ sudo make install
 
 \section basic_usage Basic Usage
 
-\include roller-robot/slope_roller.h
-\include roller-robot/slope_roller.cpp
-\include roller-robot/onoff_controller.c
+\include roller-robot/slopekey.cpp
+\include roller-robot/slopeonoff.cpp
    
  */
 

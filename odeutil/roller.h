@@ -2,17 +2,15 @@
 
 /**
    @file roller.h
+
    A Robot for 1 dimension control practice
+
    @author Y.Okamura
 
-   - nhk_roller.cpp
-   @include ../pid-practice/main/nhk_roller.cpp
+   @include roller-robot/slopekey.cpp  
 
-   - nhk_roller.h
-   @include ../pid-practice/main/nhk_roller.h
+   @include roller-robot/slopeonoff.cpp
 
-   - controller.c
-   @include ../pid-practice/onoff-control/controller.c
  */
 
 /** @defgroup roller_robot Roller Robot
