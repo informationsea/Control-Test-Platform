@@ -83,6 +83,9 @@ fi
 if test "x$with_drawstuff_lib" != x; then
   drawstuff_lib=$with_drawstuff_lib
 fi
+if test "x$with_textures" != x; then
+  textures=$with_textures
+fi
 if test "x$drawstuff_lib" != x;then
    LIBS="-L$drawstuff_lib $LIBS"
 fi
