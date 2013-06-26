@@ -94,7 +94,13 @@ if test "x$drawstuff_include" != x;then
 fi
 if test "x$textures" == x;then
    if test x$prefix == xNONE;then
-     tmpprefix=$ac_default_prefix
+     if test "drawstuff_lib" != x;then
+       tmpprefix=$drawstuff_lib/..
+     elif test "x$with_ode" != x;then
+       tmpprefix=$with_ode
+     else
+       tmpprefix=$ac_default_prefix
+     fi
    else
      tmpprefix=$prefix
    fi
