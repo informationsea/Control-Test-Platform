@@ -13,8 +13,6 @@
 #include <ode/ode.h>
 #include <drawstuff/drawstuff.h>
 
-#include "config.h"
-
 #ifndef LENGTH
 /**
  * Calculate length of array.
@@ -32,14 +30,11 @@
 #define foreach(x) for(i = 0; i < LENGTH(x); ++i)
 #endif
 
-#ifndef DRAWSTUFF_TEXTURE_PATH
 /** Drawsutff texture path.
  *  You can change this by -D option.
  *  @ingroup ode_support
  */
-#error "Did you configured?"
-// #define DRAWSTUFF_TEXTURE_PATH "/usr/local/share/drawstuff"
-#endif
+extern const char* DRAWSTUFF_TEXTURE_PATH;
 
 struct RotationAngles {
     dReal phi;

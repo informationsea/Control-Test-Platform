@@ -119,7 +119,7 @@ if test ! -f $textures/wood.ppm ;then
    AC_MSG_ERROR(Drawstuff textures are not found.)
 fi
 
-AC_DEFINE_UNQUOTED(DRAWSTUFF_TEXTURE_PATH, ["$textures"], [define texture path])
+AC_DEFINE_UNQUOTED(DRAWSTUFF_TEXTURE_PATH_DEF, ["$textures"], [define texture path])
 
 AC_CHECK_LIB(ode, [dInitODE], [], AC_MSG_ERROR(Test for library ODE failed.))
 AC_CHECK_LIB(drawstuff, [dsSimulationLoop], [], AC_MSG_ERROR(Test for library drawstuff failed.
@@ -152,6 +152,7 @@ DX_INIT_DOXYGEN(ctp, doxygen.cfg, doc/ctp)
 
 AC_CONFIG_FILES([Makefile
                  samples/Makefile
+                 samples/template/Makefile
                  samples/normal-robot/Makefile
                  samples/roller-robot/Makefile
                  odeutil/Makefile])

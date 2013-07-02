@@ -1,0 +1,78 @@
+# Hey Emacs, this is a -*- makefile -*-
+# Copyright (C) 2013 Y.Okamura
+
+# Target Executable file
+TARGET = sample
+
+# C source code
+SRC =
+
+# CPP source code
+CXXSRC = sample.cpp
+
+# Common Flags
+CPPFLAGS += @CPPFLAGS@
+
+# C compiler
+CC = @CC@
+CFLAGS +=
+
+# C++ compiler
+CXX = @CXX@
+CXXFLAGS +=
+
+# Linker
+LD = @CC@
+LDFLAGS += @LDFLAGS@
+LIBS += -lodeutil @LIBS@
+
+# For Emacs
+ifdef EMACS
+ifeq ($(CC),clang)
+  CPPFLAGS += -fno-color-diagnostics
+endif
+endif
+
+# Debug Options
+ifdef RELEASE
+  CPPFLAGS += -Os -mtune=native
+else
+  CPPFLAGS += -g -O0
+endif
+
+# generate dependence file
+OBJDIR = ./objs
+CPPFLAGS += -MMD -MP -MF $@.d
+OBJ += $(SRC:%.c=$(OBJDIR)/%.o) $(CXXSRC:%.cpp=$(OBJDIR)/%.o)
+DEPENDS = $(SRC:%.c=$(OBJDIR)/%.o.d) $(CXXSRC:%.cpp=$(OBJDIR)/%.o.d)
+
+@WIN32_TRUE@WINDRES = @WINDRES@
+@WIN32_TRUE@EXE = $(TARGET).exe
+@WIN32_FALSE@EXE = $(TARGET)
+@WIN32_TRUE@OBJ = resouce.rc
+
+# Add target to build library
+all:exe
+
+exe:$(EXE)
+
+$(EXE):$(OBJ) $(DEPEND_TARGET)
+	$(LD) $(LDFLAGS) -o $@ $(OBJ) $(LIBS)
+
+$(OBJDIR)/%.o : %.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+$(OBJDIR)/%.o : %.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+$(OBJDIR)/%.res : %.rc
+	$(WINDRES) $< -O coff -o $@ $(RESFLAGS)
+
+clean:
+	-rm $(OBJ)
+	-rm $(DEPENDS)
+	-rmdir $(OBJDIR)
+	-rm $(EXE)
+#   -rm -r $(OBJDIR)
+
+.PHONY:clean all exe lib
+
+-include $(shell mkdir -p $(OBJDIR)/$(OBJDIR) 2>/dev/null) $(wildcard $(OBJDIR)/*.d)

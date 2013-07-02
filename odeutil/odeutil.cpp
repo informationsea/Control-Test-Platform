@@ -17,6 +17,9 @@
 #include <sys/time.h>
 #endif
 
+#include "config.h"
+
+const char* DRAWSTUFF_TEXTURE_PATH = DRAWSTUFF_TEXTURE_PATH_DEF;
 
 extern "C" {
 void const_delay(double msec)
