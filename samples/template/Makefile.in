@@ -75,4 +75,4 @@ clean:
 
 .PHONY:clean all exe lib
 
--include $(shell mkdir -p $(OBJDIR)/$(OBJDIR) 2>/dev/null) $(wildcard $(OBJDIR)/*.d)
+-include $(shell mkdir -p $(OBJDIR) 2>/dev/null) $(wildcard $(OBJDIR)/*.d)
