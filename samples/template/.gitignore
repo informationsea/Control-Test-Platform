@@ -1,3 +1,5 @@
 objs
 *.d
 *.o
+sample
+*.exe
