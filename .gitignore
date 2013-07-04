@@ -47,3 +47,6 @@ doc/ode
 
 aclocal.m4
 *~
+*.tar.gz
+*.tar.bz2
+*.zip

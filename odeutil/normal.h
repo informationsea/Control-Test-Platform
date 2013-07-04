@@ -83,8 +83,9 @@ public:
      *  @param z_size Length of z axis
      */
     NormalRobot(double x_offset = 0, double y_offset = 0, double z_offset = 0,
-            double angle = 0, double wheelSize = 0.08,
-            double x_size = 0.5, double y_size = 0.3, double z_size = 0.1);
+                double angle = 0, double wheelSize = 0.08,
+                double x_size = 0.5, double y_size = 0.3, double z_size = 0.1,
+                double mass = 1);
     virtual ~NormalRobot();
 
     virtual void makeObjects();
@@ -104,6 +105,7 @@ private:
     dVector3 size;
     double angle;
     double wheelSize;
+    double bodyMass;
 
     RigidBox *mainBody;
     RigidBody *wheels[3];

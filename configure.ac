@@ -26,6 +26,8 @@ case "$host_os" in
     ;;
 esac
 
+CPPFLAGS="-Wall -Wextra $CPPFLAGS"
+
 AM_CONDITIONAL([WIN32], [test x$WIN32 = xtrue])
 
 

@@ -224,7 +224,7 @@ public:
      *  @warning a parameter, direction, has no effect.
      * @param world World
      * @param newmass Toal mass.
-     * @param direction No effect.
+     * @param direction (No effect) 1=x, 2=y, 3=z
      * @param radius Radius
      * @param length Length
      */

@@ -33,7 +33,8 @@ void car_get_encoder_value(double *left, double *right)
 
 NormalRobot::NormalRobot(double x_offset, double y_offset, double z_offset,
         double angle, double wheelSize,
-        double x_size, double y_size, double z_size)
+                         double x_size, double y_size, double z_size, double mass):
+    angle(angle), wheelSize(wheelSize), bodyMass(mass)
 {
     offset[0] = x_offset;
     offset[1] = y_offset;
@@ -42,10 +43,6 @@ NormalRobot::NormalRobot(double x_offset, double y_offset, double z_offset,
     size[0] = x_size;
     size[1] = y_size;
     size[2] = z_size;
-
-    this->angle = angle;
-    this->wheelSize = wheelSize;
-
 
     onlyRobot = this;
 }
