@@ -49,7 +49,7 @@ DEPENDS = $(SRC:%.c=$(OBJDIR)/%.o.d) $(CXXSRC:%.cpp=$(OBJDIR)/%.o.d)
 @WIN32_TRUE@WINDRES = @WINDRES@
 @WIN32_TRUE@EXE = $(TARGET).exe
 @WIN32_FALSE@EXE = $(TARGET)
-@WIN32_TRUE@OBJ = resouce.rc
+@WIN32_TRUE@OBJ += $(OBJDIR)/resouces.o
 
 # Add target to build library
 all:exe
@@ -63,7 +63,7 @@ $(OBJDIR)/%.o : %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 $(OBJDIR)/%.o : %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
-$(OBJDIR)/%.res : %.rc
+$(OBJDIR)/%.o : %.rc
 	$(WINDRES) $< -O coff -o $@ $(RESFLAGS)
 
 distclean:clean
