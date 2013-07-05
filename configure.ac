@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([control-test-platform], [0.1.2], [okamura@informationsea.info])
+AC_INIT([control-test-platform], [0.1.3], [okamura@informationsea.info])
 
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([readme-alpha -Wall -Werror foreign color-tests])
@@ -157,5 +157,6 @@ AC_CONFIG_FILES([Makefile
                  samples/template/Makefile
                  samples/normal-robot/Makefile
                  samples/roller-robot/Makefile
+                 samples/two-dimension-pid/Makefile
                  odeutil/Makefile])
 AC_OUTPUT

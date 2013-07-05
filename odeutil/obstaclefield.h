@@ -18,8 +18,6 @@ public:
     virtual void simulationStep();
     virtual bool isGround(dGeomID id);
 private:
-    RigidBox *slopes[3];
-    dFixedJoint *slopeFix[3];
     RigidCylinder *cylinders[3];
     dFixedJoint *cylindersFix[3];
 };

@@ -66,6 +66,8 @@ $(OBJDIR)/%.o : %.cpp
 $(OBJDIR)/%.res : %.rc
 	$(WINDRES) $< -O coff -o $@ $(RESFLAGS)
 
+distclean:clean
+
 clean:
 	-rm $(OBJ)
 	-rm $(DEPENDS)
@@ -73,6 +75,6 @@ clean:
 	-rm $(EXE)
 #   -rm -r $(OBJDIR)
 
-.PHONY:clean all exe lib
+.PHONY:clean all exe lib distclean
 
 -include $(shell mkdir -p $(OBJDIR) 2>/dev/null) $(wildcard $(OBJDIR)/*.d)

@@ -1,1 +1,1 @@
-SUBDIRS = normal-robot roller-robot
+SUBDIRS = normal-robot roller-robot template two-dimension-pid
