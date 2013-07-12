@@ -218,11 +218,13 @@ void NormalRobot::setMotorTorqueRight(double torque)
 {
     motor_torque[1] = torque;
     if (enable_realmotor) {
+        torque = -torque;
         if (torque > 0) {
             torque = MAX(0, torque*2-1);
         } else if (torque < 0) {
             torque = MIN(0, torque*1.4+0.7);
         }
+        torque = -torque;
     }
     hinge[1]->addTorque(torque);
 }
