@@ -11,7 +11,7 @@ static int step_num;
 
 #define ABS(x) ((x) > 0 ? (x) : -(x))
 
-#define ROTATION_STEP 4000
+#define ROTATION_STEP 3000
 
 void controller_initialize(void)
 {
@@ -50,7 +50,7 @@ void controller_simulation_step(void)
     CarPosition pos = car_get_position();
 
     double target_angle = atan2(target_y - pos.y, target_x - pos.x) + pos.angle;
-    double target_distance = sqrt(pow(target_y - pos.y, 2) + pow(target_x - pos.x, 2));
+    double target_distance = pow(target_y - pos.y, 2) + pow(target_x - pos.x, 2);
     if (target_updated) {
         last_distance = target_distance;
         last_angle = target_angle;
@@ -77,13 +77,13 @@ void controller_simulation_step(void)
 
     printf("angle: %8.4f(%8.4f)  distance: %8.4f(%8.4f)", target_angle, target_angle_diff, target_distance, target_distance_diff);
 
-    double torque_master = target_distance*5;
-    if (torque_master > 4)
-        torque_master = 4;
+    double torque_master = target_distance*7;
+    if (torque_master > 5)
+        torque_master = 5;
     // if (ABS(target_angle) > M_PI/4)
     //     torque_master = 0.5;
-    double torque_diff = (target_angle/M_PI*8)*(torque_master*0.5+0.5);
-#define MAX_TORQUE_DIFF 3.0
+    double torque_diff = (target_angle/M_PI*8)*(torque_master*0.8+0.2);
+#define MAX_TORQUE_DIFF 4.0
     if (torque_diff > MAX_TORQUE_DIFF)
         torque_diff = MAX_TORQUE_DIFF;
     else if (torque_diff < -MAX_TORQUE_DIFF)
