@@ -49,7 +49,7 @@ DEPENDS = $(SRC:%.c=$(OBJDIR)/%.o.d) $(CXXSRC:%.cpp=$(OBJDIR)/%.o.d)
 @WIN32_TRUE@WINDRES = @WINDRES@
 @WIN32_TRUE@EXE = $(TARGET).exe
 @WIN32_FALSE@EXE = $(TARGET)
-@WIN32_TRUE@OBJ += $(OBJDIR)/resouces.o
+@WIN32_TRUE@OBJ += $(OBJDIR)/resources.o
 
 # Add target to build library
 all:exe
