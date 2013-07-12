@@ -137,7 +137,7 @@ static void command(int cmd)
     case 'u':{
         enableTopView = !enableTopView;
         if (enableTopView) {
-            float xyz[3] = {0, 0, 3};
+            float xyz[3] = {1, 0, 6};
             float hpr[3] = {90, -90, 0};
             dsSetViewpoint(xyz, hpr);
         } else {

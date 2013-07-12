@@ -30,6 +30,31 @@
 #define foreach(x) for(i = 0; i < LENGTH(x); ++i)
 #endif
 
+#ifndef MAX
+/**
+ * Maximum value.
+ * @ingroup ode_support
+ */
+#define MAX(x, y) ((x) > (y) ? (x) : (y))
+#endif
+
+#ifndef MIN
+/**
+ * Minimum value.
+ * @ingroup ode_support
+ */
+#define MIN(x, y) ((x) < (y) ? (x) : (y))
+#endif
+
+#ifndef ABS
+/**
+ * Absolute value.
+ * @ingroup ode_support
+ */
+#define ABS(x) ((x) > 0 ? (x) : -(x))
+#endif
+
+
 /** Drawsutff texture path.
  *  You can change this by -D option.
  *  @ingroup ode_support

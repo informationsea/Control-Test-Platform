@@ -7,6 +7,8 @@
 
 static NormalRobot *onlyRobot;
 
+#define FRICTION_RATE 0.01
+
 extern "C" {
 CarPosition car_get_position(void)
 {
@@ -34,7 +36,7 @@ void car_get_encoder_value(double *left, double *right)
 NormalRobot::NormalRobot(double x_offset, double y_offset, double z_offset,
         double angle, double wheelSize,
                          double x_size, double y_size, double z_size, double mass):
-    angle(angle), wheelSize(wheelSize), bodyMass(mass)
+    angle(angle), wheelSize(wheelSize), bodyMass(mass), _initialized(false), enable_friction(false), enable_realmotor(false)
 {
     offset[0] = x_offset;
     offset[1] = y_offset;
@@ -66,6 +68,7 @@ void NormalRobot::makeObjects()
     mainBody->setColor(1,0,0);
     mainBody->setPosition(0, 0, size[2]/2 + wheelSize);
     mainBody->makeGeom(*space);
+    mainBody->setTotalMass(bodyMass);
 
     foreach(wheels) {
         wheels[i] = new RigidSphere(*world, 0.005, wheelSize);
@@ -118,6 +121,8 @@ void NormalRobot::makeObjects()
     }
     rotate_object(mainBody->id(), offset, rotation);
 
+    _initialized = true;
+    setFriction(enable_friction);
 }
 
 void NormalRobot::destroyObjects()
@@ -181,7 +186,6 @@ void NormalRobot::simulationStep()
         last_angle[i] = current_angle;
         encoder_value[i] = 2*M_PI*encoder_offset[i] + current_angle;
     }
-
 }
 
 CarPosition NormalRobot::getCarPosition()
@@ -199,15 +203,28 @@ CarPosition NormalRobot::getCarPosition()
 
 void NormalRobot::setMotorTorqueLeft(double torque)
 {
-    hinge[0]->addTorque(torque);
     motor_torque[0] = torque;
-
+    if (enable_realmotor) {
+        if (torque > 0) {
+            torque = MAX(0, torque*2-1);
+        } else if (torque < 0) {
+            torque = MIN(0, torque*1.4+0.7);
+        }
+    }
+    hinge[0]->addTorque(torque);
 }
 
 void NormalRobot::setMotorTorqueRight(double torque)
 {
-    hinge[1]->addTorque(torque);
     motor_torque[1] = torque;
+    if (enable_realmotor) {
+        if (torque > 0) {
+            torque = MAX(0, torque*2-1);
+        } else if (torque < 0) {
+            torque = MIN(0, torque*1.4+0.7);
+        }
+    }
+    hinge[1]->addTorque(torque);
 }
 
 double NormalRobot::getEncoderValueLeft()
@@ -220,3 +237,13 @@ double NormalRobot::getEncoderValueRight()
     return encoder_value[1];
 }
 
+void NormalRobot::setFriction(bool enable)
+{
+    size_t i;
+    enable_friction = enable;
+    if (_initialized) {
+        foreach(wheels) {
+            wheels[i]->setAngularDamping(enable ? FRICTION_RATE : 0.001);
+        }
+    }
+}

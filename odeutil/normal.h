@@ -93,6 +93,9 @@ public:
     virtual void drawObjects();
     virtual void simulationStep();
 
+    void setFriction(bool enable);
+    void setRealMotor(bool enable) { enable_realmotor = enable; }
+
     CarPosition getCarPosition();
     void setMotorTorqueLeft(double torque);
     void setMotorTorqueRight(double torque);
@@ -116,6 +119,11 @@ private:
     double encoder_value[2];
     double last_angle[2];
     int encoder_offset[2];
+
+
+    bool _initialized;
+    bool enable_friction;
+    bool enable_realmotor;
 };
 
 #endif

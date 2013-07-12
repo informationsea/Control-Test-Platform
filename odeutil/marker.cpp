@@ -76,11 +76,6 @@ Marker::Marker(double red, double green, double blue) : _noangle(false), _red(re
     _position[2] = DEFAULT_Z;
 
     dRSetIdentity(_rotation);
-
-    foreach(positions_without_angle) {
-        printf("%lf %lf %lf\n", positions_without_angle[i][0],
-               positions_without_angle[i][1], positions_without_angle[i][2]);
-    }
 }
 
 Marker::~Marker()

@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([control-test-platform], [0.1.3], [okamura@informationsea.info])
+AC_INIT([control-test-platform], [0.1.4], [okamura@informationsea.info])
 
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([readme-alpha -Wall -Werror foreign color-tests])
